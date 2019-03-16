@@ -1,0 +1,55 @@
+type:vertex
+
+#version 460
+
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec2 texCoordsIn;
+
+uniform vec2 texelStep;
+
+out vec2 texCoords[5][5];
+
+void main(void) {
+	gl_Position = vec4(position, 1.0);
+
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            texCoords[i + 2][j + 2] = texCoordsIn + texelStep * vec2(i, j);
+        }
+    }
+}
+
+type:fragment
+
+#version 460
+
+const float mags[] = {
+0.000002,	0.000212,	0.000922,	0.000212,	0.000002,
+0.000212,	0.024745,   0.107391,	0.024745,	0.000212,
+0.000922,	0.107391,	0.466066,	0.107391,	0.000922,
+0.000212,	0.024745,	0.107391,	0.024745,	0.000212,
+0.000002,	0.000212,	0.000922,	0.000212,	0.000002 };
+
+uniform int blurEnable;
+
+uniform sampler2D sampler;
+
+in vec2 texCoords[5][5];
+
+out vec4 fragColor;
+
+void main(void) {
+    if (blurEnable == 0) {
+        fragColor = texture(sampler, texCoords[2][2]);
+        return;
+    }
+
+    vec4 sum = vec4(0.0);
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            sum += texture(sampler, texCoords[i + 2][j + 2]) * mags[(i + 2) * 5 + j + 2];
+        }
+    }
+
+    fragColor = sum;
+}

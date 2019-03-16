@@ -1,0 +1,20 @@
+#Keybinds: UP, DOWN, N, A, R, D, SPACE
+width=10
+height=10
+thicknes=2
+deltaT=0.0001
+value=0.9
+handler=SOFT_INV
+#INELASTIC*D, ELASTIC*D, SEMIELASTIC*D, SOFT_CONST, SOFT_INV
+
+particles
+-5;0;-1;0;1;1
+5;0;0;-1;1;1
+0;0.2;-1;0;1;1
+2;3.1;1;0;1;1
+0;4;0;0;1;1
+-5;-5;1;1;1;1
+5;-4;2;0;1;1
+5;4;0;0;1;1
+2;-7;-1;-1;1;1
+7;-5;-1;1;1;1
