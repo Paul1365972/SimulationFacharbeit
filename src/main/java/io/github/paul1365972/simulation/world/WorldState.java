@@ -18,7 +18,7 @@ public class WorldState implements EventListener {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	private static final DecimalFormat df = new DecimalFormat("0.0000000");
+	private static final DecimalFormat df = new DecimalFormat("0.000000000000000");
 	
 	private boolean drag = false;
 	private InputEvent.CursorPos lastCursor;
@@ -36,7 +36,6 @@ public class WorldState implements EventListener {
 		reloadConfig();
 		
 		physics = new CollisionPhysics();
-		physics.init(this);
 	}
 	
 	public void reloadConfig() {
@@ -53,7 +52,7 @@ public class WorldState implements EventListener {
 		if (!paused) {
 			for (left += speed / 100; left > 0; left--) {
 				steps++;
-				physics.tick(this);
+				physics.step(this);
 			}
 		}
 		return steps;
@@ -68,7 +67,8 @@ public class WorldState implements EventListener {
 			totalMomentum.add(momentum);
 		}
 		
-		LOGGER.info("All Particles Total-Energy: " + df.format(totalEnergy) + " in J; Total-Momentum: " + df.format(totalMomentum.length()));
+		LOGGER.info("All Particles Total-Energy: " + df.format(totalEnergy) + " in J");
+		LOGGER.info("Total-Momentum: " + df.format(totalMomentum.length()));
 		LOGGER.info("Wall-Momentum: " + new Vector2d(momentumX, momentumY).toString(df));
 		/*
 		for (int i = 0; i < particles.size(); i++) {

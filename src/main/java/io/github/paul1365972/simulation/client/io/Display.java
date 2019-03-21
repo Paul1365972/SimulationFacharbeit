@@ -51,12 +51,10 @@ public class Display {
 	public static void close() {
 		assertMainThread();
 		Callbacks.glfwFreeCallbacks(window);
-		GL.setCapabilities(null);
 		glfwDestroyWindow(window);
 	}
 	
 	public static void swapBuffers() {
-		
 		glfwSwapBuffers(window);
 	}
 	

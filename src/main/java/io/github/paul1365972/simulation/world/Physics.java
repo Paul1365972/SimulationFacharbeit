@@ -5,9 +5,7 @@ import io.github.paul1365972.simulation.renderer.utils.MvpMatrix;
 
 public interface Physics {
 	
-	void init(WorldState state);
-	
-	void tick(WorldState state);
+	void step(WorldState state);
 	
 	void render(WorldState state, RGVao particleVao, MvpMatrix mvpMatrix);
 	

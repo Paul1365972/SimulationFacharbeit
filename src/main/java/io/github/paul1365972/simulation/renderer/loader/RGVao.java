@@ -2,6 +2,7 @@ package io.github.paul1365972.simulation.renderer.loader;
 
 import io.github.paul1365972.simulation.renderer.utils.DataBuffer;
 import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
@@ -9,10 +10,11 @@ import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL33;
 
 import java.awt.Color;
+import java.nio.IntBuffer;
 
 public class RGVao {
 	
-	private int vaoId, vboId;
+	private int vaoId, vboId, indexId;
 	private int vboSize;
 	private DataBuffer buffer;
 	
@@ -32,7 +34,14 @@ public class RGVao {
 		int[] indices = new int[] {0, 1, 2, 0, 2, 3};
 		
 		vertexCount = indices.length;
-		Loader.bindIndicesBuffer(indices);
+		
+		IntBuffer intBuffer = BufferUtils.createIntBuffer(indices.length);
+		intBuffer.put(indices);
+		intBuffer.flip();
+		indexId = GL15.glGenBuffers();
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexId);
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, intBuffer, GL15.GL_STATIC_DRAW);
+		
 		Loader.storeDataInAttributeList(0, vertices, 3);
 		Loader.storeDataInAttributeList(1, texcoords, 2);
 		
@@ -58,7 +67,7 @@ public class RGVao {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		
 		buffer = DataBuffer.create(bufferEntries * (16 + 4) * 4);
-		
+		GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		GL30.glBindVertexArray(0);
 	}
 	
@@ -95,7 +104,7 @@ public class RGVao {
 	
 	public void draw() {
 		GL30.glBindVertexArray(vaoId);
-		
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexId);
 		GL31.glDrawElementsInstanced(GL11.GL_TRIANGLES, vertexCount, GL11.GL_UNSIGNED_INT, 0, count);
 		
 		GL30.glBindVertexArray(0);

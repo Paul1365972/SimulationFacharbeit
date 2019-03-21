@@ -28,6 +28,7 @@ public abstract class AbstractShader {
 		String code = read(name);
 		if (code != null) {
 			programID = GL20.glCreateProgram();
+			bindAttributes();
 			String[] shaders = code.split("type:");
 			for (int i = 1; i < shaders.length; i++) {
 				if (shaders[i].startsWith("vertex")) {
@@ -42,6 +43,8 @@ public abstract class AbstractShader {
 					LOGGER.error("Unsupported Shader: " + shaders[i]);
 				}
 			}
+			
+			
 			
 			GL20.glLinkProgram(programID);
 			LOGGER.debug("Creating Program");
@@ -92,6 +95,8 @@ public abstract class AbstractShader {
 	protected int getUniformLocation(String uniformName) {
 		return GL20.glGetUniformLocation(programID, uniformName);
 	}
+	
+	protected abstract void bindAttributes();
 	
 	protected abstract void getAllUniformLocations();
 	

@@ -21,6 +21,12 @@ public class ColorShader extends AbstractShader {
 	}
 	
 	@Override
+	protected void bindAttributes() {
+		bindAttribute(0,"position");
+		bindAttribute(1,"texCoordsIn");
+	}
+	
+	@Override
 	protected void getAllUniformLocations() {
 		mvpMatrix = super.getUniformLocation("mvpMatrix");
 		color = super.getUniformLocation("color");

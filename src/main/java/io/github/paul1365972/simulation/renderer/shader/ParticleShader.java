@@ -8,6 +8,14 @@ public class ParticleShader extends AbstractShader {
 	}
 	
 	@Override
+	protected void bindAttributes() {
+		bindAttribute(0,"position");
+		bindAttribute(1,"texCoordsIn");
+		bindAttribute(2,"colorIn");
+		bindAttribute(3,"mvpMatrix");
+	}
+	
+	@Override
 	protected void getAllUniformLocations() {
 	}
 	

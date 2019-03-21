@@ -9,23 +9,24 @@ import java.awt.Color;
 public class CollisionPhysics implements Physics {
 	
 	@Override
-	public void init(WorldState state) {
-		// Unused atm
-	}
-	
-	@Override
-	public void tick(WorldState state) {
+	public void step(WorldState state) {
+		// Get the time in seconds to simulate this step
+		double deltaT = state.getConfig().getDeltaT();
+		
+		// Get the handler for detecting and resolving collisions
+		InteractionHandler handler = state.getConfig().getHandler();
+		
 		// Let every Particle interact with each other
 		for (int i = 0; i < state.getParticles().size(); i++) {
 			for (int j = i + 1; j < state.getParticles().size(); j++) {
 				Particle t = state.getParticles().get(i);
 				Particle o = state.getParticles().get(j);
-				state.getConfig().getHandler().interact(t, o, state.getConfig().getDeltaT());
+				handler.interact(t, o, deltaT);
 			}
 		}
-		// Update and normalize all particles
+		// Update positions and normalize all particles
 		for (Particle p : state.getParticles()) {
-			update(p, state.getConfig().getDeltaT());
+			update(p, deltaT);
 			normalize(p, state);
 		}
 	}

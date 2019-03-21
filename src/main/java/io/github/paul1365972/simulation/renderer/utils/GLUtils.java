@@ -2,6 +2,7 @@ package io.github.paul1365972.simulation.renderer.utils;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL30;
 
 public class GLUtils {
 	

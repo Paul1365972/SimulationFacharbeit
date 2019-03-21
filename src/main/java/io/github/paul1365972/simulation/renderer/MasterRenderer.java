@@ -58,8 +58,6 @@ public class MasterRenderer {
 		GL11.glViewport(cx, cy, Display.getViewFramebufferWidth(), Display.getViewFramebufferHeight());
 		
 		ppShader.start();
-		ppShader.loadBlurEnable(false);
-		ppShader.loadTexelStep(1f / viewFbo.getWidth(), 1f / viewFbo.getHeight());
 		
 		GL30.glBindVertexArray(Loader.SCREEN.getVaoID());
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, viewFbo.getColorTexture(0).getId());
